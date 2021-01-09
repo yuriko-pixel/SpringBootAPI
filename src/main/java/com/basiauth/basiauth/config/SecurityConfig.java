@@ -1,31 +1,32 @@
 package com.basiauth.basiauth.config;
 
-import com.basiauth.basiauth.entity.Employee;
-import com.basiauth.basiauth.service.EmployeeService;
-import com.basiauth.basiauth.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
+import com.basiauth.basiauth.service.LoginUserDetailsServiceImpl;
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private EmployeeServiceImpl employeeService;
+    private LoginUserDetailsServiceImpl userService;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+    	return new BCryptPasswordEncoder();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+    	auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -34,5 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                .csrf().disable();
 
 
+       http
+       .httpBasic().and()
+       .authorizeRequests()
+       .anyRequest().authenticated();
     }
 }

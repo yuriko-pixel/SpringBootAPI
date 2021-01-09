@@ -36,19 +36,19 @@ public class EmployeeController {
     	return emp;
     }
 
-    //update
-    @PostMapping(path="{employeeId}")
-    public void postEmployee(@RequestBody Employee employee,@PathVariable("employeeId") Long id) {
-    	Optional<Employee> employee1 = employeeService.getEmployeeById(id);
-        Employee emp = employee1.get();
-        employeeService.updateEmployeeById(employee,id);
+    //register
+    @PostMapping()
+    public void postEmployee(@RequestBody Employee employee) {
+    	employeeService.createEmployee(employee);
     }
 
 
-    //register
-    @PutMapping
-    public void updateEmployee(@RequestBody Employee employee) {
-        employeeService.createEmployee(employee);
+    //update
+    @PutMapping(path="{employeeId}")
+    public void updateEmployee(@RequestBody Employee employee,@PathVariable("employeeId") Long id) {
+        Optional<Employee> employee1 = employeeService.getEmployeeById(id);
+        Employee emp = employee1.get();
+        employeeService.updateEmployeeById(employee,id);
     }
 
     @DeleteMapping(path="{employeeId}")

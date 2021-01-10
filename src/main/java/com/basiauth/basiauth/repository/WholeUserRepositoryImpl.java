@@ -32,6 +32,7 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
 
        List<GrantedAuthority> grantedAuthorityList = getRoleList(roleName);
        UserDetailsImpl userDetails = buildUserDetails(user, grantedAuthorityList);
+       System.out.println(userDetails);
 
        return userDetails;
     }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,14 +25,14 @@ public class EmployeeController {
     private EmployeeServiceImpl employeeService;
 
     @GetMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GENERAL')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Employee> getEmployees() {
         List<Employee> employeeList = employeeService.getAllEmployees();
         return employeeList;
     }
 
     @GetMapping(path="{employeeId}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GENERAL')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GENERAL')")
     public Employee getEmployeeById(@PathVariable("employeeId") Long id) {
     	Optional<Employee> employeeOption = employeeService.getEmployeeById(id);
     	Employee emp = employeeOption.get();
@@ -40,7 +41,7 @@ public class EmployeeController {
 
     //register
     @PostMapping()
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void postEmployee(@RequestBody Employee employee) {
     	employeeService.createEmployee(employee);
     }
@@ -48,7 +49,7 @@ public class EmployeeController {
 
     //update
     @PutMapping(path="{employeeId}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateEmployee(@RequestBody Employee employee,@PathVariable("employeeId") Long id) {
         Optional<Employee> employee1 = employeeService.getEmployeeById(id);
         Employee emp = employee1.get();
@@ -56,7 +57,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping(path="{employeeId}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteEmployee(@PathVariable("employeeId") Long id) {
     	employeeService.deleteEmployeeById(id);
     }

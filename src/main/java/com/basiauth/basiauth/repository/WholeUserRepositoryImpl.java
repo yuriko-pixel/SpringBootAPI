@@ -51,15 +51,9 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
 
     private UserDetailsImpl buildUserDetails(LoginUser user,
                                             List<GrantedAuthority> grantedAuthorityList) {
-    	UserDetailsImpl userImpl = new UserDetailsImpl().builder()
-                .userId(user.getUserId())
-                .userName(user.getUserName())
-                .password(user.getPassword())
-                .passUpdateDate(user.getPassUpdateDate())
-                .loginMissTimes(user.getLoginMissTimes())
-                .unlock(user.isUnlock())
-                .enabled(user.isEnabled())
-                .userDueDate(user.getUserDueDate())
+    	new UserDetailsImpl();
+		UserDetailsImpl userImpl = UserDetailsImpl.builder()
+                .user(user)
                 .authority(grantedAuthorityList)
                 .build();
 

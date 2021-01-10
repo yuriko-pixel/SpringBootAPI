@@ -17,16 +17,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserDetailsImpl implements UserDetails {
 
-	private String userId; //ユーザーID
-    private String password; //パスワード
-    private Date passUpdateDate; //パスワード更新日付
-    private int loginMissTimes; //ログイン失敗回数
-    private boolean unlock; //ロック状態フラグ
-    private boolean enabled; //有効・無効フラグ
-    private Date userDueDate; //ユーザー有効期限
+	private LoginUser user;
+
+	public UserDetailsImpl(LoginUser user) {
+		this.user = user;
+	}
+
     private Collection<? extends GrantedAuthority> authority;
 
-    private String userName;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -35,12 +33,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.userId;
+        return user.getUserId();
     }
 
     /** アカウントの有効期限チェック
@@ -51,7 +49,7 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isAccountNonExpired() {
 
         //ユーザー有効期限が、現在日付よりも後かどうかをチェック
-        if(this.userDueDate.after(new Date())) {
+        if(user.getUserDueDate().after(new Date())) {
 
             //現在日付よりも後なら有効
             return true;
@@ -69,7 +67,7 @@ public class UserDetailsImpl implements UserDetails {
      */
     @Override
     public boolean isAccountNonLocked() {
-        return this.unlock;
+        return user.isUnlock();
     }
 
     /** パスワードの有効期限チェック
@@ -80,7 +78,7 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isCredentialsNonExpired() {
 
         //パスワード有効期限が、現在日付よりも後かどうかをチェック
-        if(this.passUpdateDate.after(new Date())) {
+        if(user.getPassUpdateDate().after(new Date())) {
 
             //現在日付よりも後なら有効
             return true;
@@ -99,6 +97,6 @@ public class UserDetailsImpl implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return user.isEnabled();
     }
 }

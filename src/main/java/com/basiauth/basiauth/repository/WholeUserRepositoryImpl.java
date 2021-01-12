@@ -41,12 +41,15 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     @Override
     public List<GrantedAuthority> getRoleList(String roleName) {
 
-        GrantedAuthority authority = new SimpleGrantedAuthority(roleName);
-        List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
+    	List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
+
+        GrantedAuthority authority =
+                new SimpleGrantedAuthority(roleName);
 
         grantedAuthorityList.add(authority);
 
         return grantedAuthorityList;
+
     }
 
     private UserDetailsImpl buildUserDetails(LoginUser user,

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>ホーム</title>
+  </head>
+  <body>
+    <h1>Home</h1>
+    <!-- ユーザー情報 -->
+    <p>ユーザーID：<span sec:authentication="name"></span></p>
+    <p>ロール:<span sec:authentication="principal.authorities"></span></p>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">ADMIN</a>
+	<a sec:authorize="hasRole('ROLE_GENERAL')" th:href="@{/home}">GENERAL</a>
+    <!-- ログアウト -->
+    <form method="post" th:action="@{/logout}">
+      <button type="submit">ログアウト</button>
+    </form>
+  </body>
+</html>

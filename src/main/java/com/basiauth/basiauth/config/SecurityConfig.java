@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.basiauth.basiauth.service.LoginUserDetailsServiceImpl;
 
@@ -18,7 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private LoginUserDetailsServiceImpl userService;
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,13 +33,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       http
-               .csrf().disable();
+
+        http
+            .authorizeRequests()
+                .antMatchers("/login").permitAll() //ログインページは直リンクOK
+                .antMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")
+                .anyRequest().authenticated(); //それ以外は直リンク禁止
 
 
-       http
-       .httpBasic().and()
-       .authorizeRequests()
-       .anyRequest().authenticated();
+        http
+            .formLogin()
+                .loginProcessingUrl("/login")
+                .loginPage("/login")
+                .failureUrl("/login?error")
+                .usernameParameter("userId")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/home", true);
+
+
+        http
+            .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login");
+
     }
 }

@@ -37,7 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/login").permitAll() //ログインページは直リンクOK
-                .antMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/register").permitAll()
+                .antMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")//管理者用画面へのアクセス設定
+                .antMatchers("/user").hasAnyAuthority("ROLE_ADMIN","ROLE_GENERAL")//ユーザ用画面はユーザ全員が自身の情報について行える
                 .anyRequest().authenticated(); //それ以外は直リンク禁止
 
 

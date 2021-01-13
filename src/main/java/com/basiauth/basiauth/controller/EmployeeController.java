@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.basiauth.basiauth.entity.Employee;
 import com.basiauth.basiauth.service.EmployeeServiceImpl;
 
+//RESTAPI用。いらないのであとで削除。
+
 @RestController
 @RequestMapping("/api/v1/employees")
 public class EmployeeController {

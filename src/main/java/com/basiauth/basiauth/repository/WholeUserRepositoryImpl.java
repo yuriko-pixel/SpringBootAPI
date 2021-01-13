@@ -1,16 +1,21 @@
 package com.basiauth.basiauth.repository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.basiauth.basiauth.entity.LoginUser;
 import com.basiauth.basiauth.entity.Role;
 import com.basiauth.basiauth.entity.UserDetailsImpl;
+import com.basiauth.basiauth.entity.UserRequest;
 
 @Repository
 public class WholeUserRepositoryImpl implements WholeUserRepository{
@@ -19,6 +24,9 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
 
     @Autowired
     private LoginRoleRepository loginRoleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetailsImpl selectOne(String userId) {
@@ -62,5 +70,26 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
 
         return userImpl;
     }
+
+    public void createUser(UserRequest userRequest) throws ParseException {
+    	LoginUser user = new LoginUser();
+    	user.setUserId(userRequest.getUserId());
+    	user.setUserName(userRequest.getUserName());
+    	user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+    	user.setEnabled(true);
+    	user.setLoginMissTimes(0);
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date date = new Date();
+    	date = df.parse("2099-12-31 23:59:59");
+
+    	user.setPassUpdateDate(date);
+
+    	user.setRoleId("general");
+    	user.setUnlock(true);
+    	user.setUserDueDate(date);
+
+    	loginUserRepository.save(user);
+    }
+
 
 }

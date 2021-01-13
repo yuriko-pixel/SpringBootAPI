@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}">
   <head>
     <meta charset="UTF-8"></meta>
     <title>ホーム</title>
@@ -14,7 +15,7 @@
 	<a sec:authorize="hasRole('ROLE_GENERAL')" th:href="@{/home}">GENERAL</a>
     <!-- ログアウト -->
     <form method="post" th:action="@{/logout}">
-      <button type="submit">ログアウト</button>
+      <button type="submit" class="btn btn-primary">ログアウト</button>
     </form>
   </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.basiauth.basiauth.entity.PassUpdateRequest;
 import com.basiauth.basiauth.entity.UserRequest;
 import com.basiauth.basiauth.repository.WholeUserRepositoryImpl;
 
@@ -29,5 +30,9 @@ import com.basiauth.basiauth.repository.WholeUserRepositoryImpl;
 	public void createUser(UserRequest userRequest) throws ParseException {
 		repositoryImpl.createUser(userRequest);
 
+	}
+
+	public void updatePassword(PassUpdateRequest request, String userId) {
+		repositoryImpl.updatePassword(request, userId);
 	}
 }

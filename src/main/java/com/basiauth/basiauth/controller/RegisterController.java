@@ -32,16 +32,19 @@ public class RegisterController {
 	}
 
 	@PostMapping
-	public void registerUser(@Validated @ModelAttribute UserRequest userRequest, BindingResult result, Model model) throws ParseException {
-		model.addAttribute("UserRequest", userRequest);
+	public String registerUser(@Validated @ModelAttribute UserRequest userRequest, BindingResult result, Model model) throws ParseException {
 		if(result.hasErrors()) {
 			List<String> errorList = new ArrayList<>();
 			for(ObjectError error: result.getAllErrors()) {
 				 errorList.add(error.getDefaultMessage());
 			}
 			model.addAttribute("validationError",errorList);
+			return "register";
 		}
+		
+		model.addAttribute("UserRequest", userRequest);
 		userService.createUser(userRequest);
 
+		return "registereesult";
 	}
 }

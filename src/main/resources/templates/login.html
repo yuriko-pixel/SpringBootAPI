@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}">
+<link th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet"></link>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
   <head>
     <meta charset="UTF-8"></meta>
     <title>ログイン</title>
@@ -14,7 +16,7 @@
 	      <label>パスワード：</label>
 	      <input type="password" name="password" class="form-control"/><br>
 	      <br>
-	      <button type="submit" class="btn btn-primary" value="ログイン" /><br>
+	      <button type="submit" class="btn btn-primary">ログイン</button><br>
 	      <br>
 	      <a th:href="@{/register}">新規登録はこちら</a>
 	      <p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
@@ -25,4 +27,5 @@
 	  </div>
     </form>
   </body>
+   <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
 </html>

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}">
+<link th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet"></link>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
   <head>
     <meta charset="UTF-8"></meta>
     <title>ログイン</title>
@@ -12,24 +14,28 @@ xmlns:th="http://www.thymeleaf.org">
     		<td class="table" th:text="${error}"></td>
     	</tr>
     </table>
-    <form class="form-group" th:action="@{/register}" th:object="${UserRequest}" th:method="post">
-    	<h1>ユーザ新規登録</h1>
-    	<table class="table">
-    		<tr>
-				<th>ユーザID</th>
-				<td><input type="text" class="form-control" th:field="*{userId}"/></td>
-			</tr>
-			<tr>
-				<th><label>ユーザ名</label></th>
-				<td><input type="text" class="form-control" th:field="*{userName}"/></td>
-			</tr>
-			<tr>
-				<th>パスワード</th>
-				<td><input type="text" class="form-control" th:field="*{password}"/></td>
-			</tr>
-    	</table>
-    	<input type="submit" class="btn btn-primary" value="登録"/>
-		<a th:href="@{/login}">戻る</a>
+    <div class="container-sm">
+	    <form class="form-group" th:action="@{/register}" th:object="${UserRequest}" th:method="post">
+	    	<h1>ユーザ新規登録</h1>
+	    	<table class="table container">
+	    		<tr class="row">
+					<th class="col-sm text-center">ユーザID</th>
+					<td class="col-sm"><input type="text" class="form-control" th:field="*{userId}"/></td>
+				</tr>
+				<tr class="row">
+					<th class="col-sm text-center">ユーザ名</th>
+					<td class="col-sm"><input type="text" class="form-control" th:field="*{userName}"/></td>
+				</tr>
+				<tr class="row">
+					<th class="col-sm text-center">パスワード</th>
+					<td class="col-sm"><input type="text" class="form-control" th:field="*{password}"/></td>
+				</tr>
+	    	</table>
+	    	<input type="submit" class="btn btn-primary" value="登録"/>
+			<a th:href="@{/login}">戻る</a>
 
-    </form>
+	    </form>
+	   </div>
   </body>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+    </html>

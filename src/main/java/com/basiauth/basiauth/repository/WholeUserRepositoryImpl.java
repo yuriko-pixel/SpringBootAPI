@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.basiauth.basiauth.entity.LoginUser;
+import com.basiauth.basiauth.entity.PassUpdateRequest;
 import com.basiauth.basiauth.entity.Role;
 import com.basiauth.basiauth.entity.UserDetailsImpl;
 import com.basiauth.basiauth.entity.UserRequest;
@@ -71,6 +72,7 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
         return userImpl;
     }
 
+    //新規ユーザーの登録
     public void createUser(UserRequest userRequest) throws ParseException {
     	LoginUser user = new LoginUser();
     	user.setUserId(userRequest.getUserId());
@@ -91,5 +93,9 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     	loginUserRepository.save(user);
     }
 
-
+    //パスワードと、パスワードアップデート日の更新
+    public void updatePassword(PassUpdateRequest passUpdateReqeust,String userId) {
+    	String password = passwordEncoder.encode(passUpdateReqeust.getPassword());
+    	loginUserRepository.updatePassword(userId,password);
+    }
 }

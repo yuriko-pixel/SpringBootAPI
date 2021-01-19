@@ -13,7 +13,7 @@
     <!-- ユーザー情報 -->
     <p>ユーザーID：<span sec:authentication="name"></span></p>
     <p>ロール:<span sec:authentication="principal.authorities"></span></p>
-    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">ADMIN</a>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/adminhome}">ADMIN</a>
 	<a sec:authorize="hasRole('ROLE_GENERAL')" th:href="@{/userhome}">GENERAL</a>
     <!-- ログアウト -->
     <form method="post" th:action="@{/logout}">

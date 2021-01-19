@@ -1,6 +1,7 @@
 package com.basiauth.basiauth.service;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.basiauth.basiauth.entity.LoginUser;
 import com.basiauth.basiauth.entity.PassUpdateRequest;
 import com.basiauth.basiauth.entity.UserRequest;
 import com.basiauth.basiauth.repository.WholeUserRepositoryImpl;
@@ -52,4 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 		repositoryImpl.updateLoginMissTimes(userId, loginMissTimes, unlock);
 	}
 
+	public List<LoginUser> getAllUsers() {
+		return repositoryImpl.getAllUsers();
+	}
 }

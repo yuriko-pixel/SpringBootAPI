@@ -107,4 +107,12 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     public void updateLoginMissTimes(String userId, int loginMissTimes, boolean unlock) {
     	loginUserRepository.updateLogimMissTimes(userId, loginMissTimes,unlock);
     }
+
+    //すべてのユーザー情報を取得
+    public List<LoginUser> getAllUsers() {
+    	List<LoginUser> userList = new ArrayList<>();
+    	Iterable<LoginUser> iterable = loginUserRepository.findAll();
+    	iterable.forEach(userList::add);
+    	return userList;
+    }
 }

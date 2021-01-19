@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      <link th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet"></link>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>ホーム</title>
+  </head>
+  <body>
+    <h1>Home</h1>
+    <table>
+    <thead>
+        <tr>
+            <th> UserId </th>
+            <th> UserName </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr th:each="users : ${usersList}">
+            <td><span th:text="${users.userId}"> Title </span></td>
+        </tr>
+    </tbody>
+</table>
+  </body>
+   <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+</html>

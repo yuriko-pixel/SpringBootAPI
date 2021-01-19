@@ -13,7 +13,6 @@
     <table class="table">
     <thead>
         <tr>
-        	<th>編集</th>
             <th scope="col">UserId</th>
             <th scope="col">UserName</th>
             <th scope="col">Password</th>
@@ -26,20 +25,20 @@
         </tr>
     </thead>
     <tbody>
-        <tr th:each="users : ${usersList}">
-          <td><a th:href="|/admin/edituser/${users.userId}|"><span th:text="${users.userId}"></span></a></td>
-        <td><span th:text="${users.userName}"></span></td>
-        <td><span th:text="${users.password}"></span></td>
-        <td><span th:text="${users.passUpdateDate}"></span></td>
-        <td><span th:text="${users.loginMissTimes}"></span></td>
-        <td><span th:text="${users.unlock}"></span></td>
-        <td><span th:text="${users.enabled}"></span></td>
-        <td><span th:text="${users.userDueDate}"></span></td>
-        <td><span th:text="${users.roleId}"></span></td>
-
+        <tr>
+          <td><input th:value="${userInfo.userId}"></td>
+        <td><input th:value="${userInfo.userName}"></input></td>
+        <td><input th:value="${userInfopassword}"></input></td>
+        <td><input th:value="${userInfopassUpdateDate}"></input></td>
+        <td><input th:value="${userInfo.loginMissTimes}"></input></td>
+        <td><input th:value="${userInfo.unlock}"></input></td>
+        <td><input th:value="${userInfo.enabled}"></input></td>
+        <td><input th:value="${userInfo.userDueDate}"></input></td>
+        <td><input th:value="${userInfo.roleId}"></input></td>
         </tr>
     </tbody>
 </table>
+<div th:text="${userInfo.userId}"></div>
   </body>
    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
 </html>

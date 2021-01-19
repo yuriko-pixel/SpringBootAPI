@@ -57,4 +57,8 @@ import lombok.extern.slf4j.Slf4j;
 	public List<LoginUser> getAllUsers() {
 		return repositoryImpl.getAllUsers();
 	}
+
+	public LoginUser getLoginUserByUserId(String userId) {
+		return repositoryImpl.getLoginUserByUserid(userId);
+	}
 }

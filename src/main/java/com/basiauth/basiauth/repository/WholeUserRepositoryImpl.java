@@ -115,4 +115,9 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     	iterable.forEach(userList::add);
     	return userList;
     }
+
+    public LoginUser getLoginUserByUserid(String userId) {
+    	LoginUser user = loginUserRepository.findOneByUserId(userId);
+    	return user;
+    }
 }

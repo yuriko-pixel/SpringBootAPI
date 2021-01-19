@@ -45,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/login").permitAll() //ログインページは直リンクOK
                 .antMatchers("/register").permitAll()
+                .antMatchers("/error/session").permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/webjars/*").permitAll()
                 .antMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")//管理者用画面へのアクセス設定

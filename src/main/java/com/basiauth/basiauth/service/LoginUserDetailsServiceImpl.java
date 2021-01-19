@@ -12,11 +12,16 @@ import com.basiauth.basiauth.entity.PassUpdateRequest;
 import com.basiauth.basiauth.entity.UserRequest;
 import com.basiauth.basiauth.repository.WholeUserRepositoryImpl;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 	public class LoginUserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
 	WholeUserRepositoryImpl repositoryImpl;
+
+	private static final int LOGIN_MISS_TIMES = 3;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
@@ -32,7 +37,19 @@ import com.basiauth.basiauth.repository.WholeUserRepositoryImpl;
 
 	}
 
-	public void updatePassword(PassUpdateRequest request, String userId) {
+	public void updatePassword(PassUpdateRequest request, String userId) throws ParseException {
 		repositoryImpl.updatePassword(request, userId);
 	}
+
+	public void updateLoginMissTimes(String userId, int loginMissTimes) {
+		boolean unlock = true;
+
+		if(loginMissTimes >= LOGIN_MISS_TIMES) {
+			unlock = false;
+			log.info(userId+"をロックします");
+		}
+
+		repositoryImpl.updateLoginMissTimes(userId, loginMissTimes, unlock);
+	}
+
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      <link th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet"></link>
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>ホーム</title>
+  </head>
+  <body>
+    <h1>Home</h1>
+    <!-- ユーザー情報 -->
+    <p>ユーザーID：<span sec:authentication="name"></span></p>
+    <p>ロール:<span sec:authentication="principal.authorities"></span></p>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">ADMIN</a>
+	<a sec:authorize="hasRole('ROLE_GENERAL')" th:href="@{/userhome}">GENERAL</a>
+    <!-- ログアウト -->
+    <form method="post" th:action="@{/logout}">
+      <button type="submit" class="btn btn-primary">ログアウト</button>
+    </form>
+  </body>
+   <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+</html>

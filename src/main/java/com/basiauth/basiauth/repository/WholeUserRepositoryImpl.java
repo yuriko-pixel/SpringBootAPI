@@ -94,8 +94,17 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     }
 
     //パスワードと、パスワードアップデート日の更新
-    public void updatePassword(PassUpdateRequest passUpdateReqeust,String userId) {
+    public void updatePassword(PassUpdateRequest passUpdateReqeust,String userId) throws ParseException {
     	String password = passwordEncoder.encode(passUpdateReqeust.getPassword());
-    	loginUserRepository.updatePassword(userId,password);
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date date = new Date();
+    	date = df.parse("2099-12-31 23:59:59");
+
+    	loginUserRepository.updatePassword(userId,password,date);
+    }
+
+    //パスワードを間違えた回数をアップデート
+    public void updateLoginMissTimes(String userId, int loginMissTimes, boolean unlock) {
+    	loginUserRepository.updateLogimMissTimes(userId, loginMissTimes,unlock);
     }
 }

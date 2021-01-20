@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.basiauth.basiauth.entity.EditUserRequest;
 import com.basiauth.basiauth.entity.LoginUser;
 import com.basiauth.basiauth.entity.PassUpdateRequest;
 import com.basiauth.basiauth.entity.Role;
@@ -119,5 +120,26 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     public LoginUser getLoginUserByUserid(String userId) {
     	LoginUser user = loginUserRepository.findOneByUserId(userId);
     	return user;
+    }
+
+    public void updateUserInfo(EditUserRequest editUserRequest) throws ParseException {
+//
+    	String password = passwordEncoder.encode(editUserRequest.getPassword());
+    	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+//
+    	Date passUpdateDate = df.parse(editUserRequest.getPassUpdateDate());
+//    	int loginMissTimes = Integer.parseInt(loginMissTimes1);
+//
+//    	boolean unlock = Boolean.getBoolean(unlock1);
+//    	boolean enabled = Boolean.getBoolean(enabled1);
+    	Date userDueDate = df.parse(editUserRequest.getUserDueDate());
+
+    	System.out.println("passUpdateDate:"+editUserRequest.getUserId());
+    	System.out.println("passUpdateDate:"+editUserRequest.getPassUpdateDate());
+
+    	loginUserRepository.updateuserInfo(
+    			editUserRequest.getUserId(), editUserRequest.getUserName(), password,
+    			passUpdateDate, editUserRequest.getLoginMissTimes(), editUserRequest.isUnlock(),
+    			editUserRequest.isEnabled(), userDueDate, editUserRequest.getRoleId());
     }
 }

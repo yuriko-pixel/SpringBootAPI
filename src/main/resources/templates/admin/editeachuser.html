@@ -9,7 +9,7 @@
     <title>ホーム</title>
   </head>
   <body>
-    <h1>Home</h1>
+    <form th:action="@{/admin/edituser/${userInfo.userId}}" th:method="post" th:object="${userEditRequest}" class="container-sm">
     <table class="table">
     <thead>
         <tr>
@@ -25,20 +25,36 @@
         </tr>
     </thead>
     <tbody>
+    <tr th:if="${validationError}" th:each="error : ${validationError}">
+        <td style="color:red;" th:text="${error}"></td>
+    </tr>
         <tr>
-          <td><input th:value="${userInfo.userId}"></td>
-        <td><input th:value="${userInfo.userName}"></input></td>
-        <td><input th:value="${userInfopassword}"></input></td>
-        <td><input th:value="${userInfopassUpdateDate}"></input></td>
-        <td><input th:value="${userInfo.loginMissTimes}"></input></td>
-        <td><input th:value="${userInfo.unlock}"></input></td>
-        <td><input th:value="${userInfo.enabled}"></input></td>
-        <td><input th:value="${userInfo.userDueDate}"></input></td>
-        <td><input th:value="${userInfo.roleId}"></input></td>
+        <td><span th:text="${userInfo.userId}"></span></td>
+        <td><span th:text="${userInfo.userName}"></span></td>
+        <td><span th:text="${userInfo.password}"></span></td>
+        <td><span th:text="${userInfo.passUpdateDate}"></span></td>
+        <td><span th:text="${userInfo.loginMissTimes}"></span></td>
+         <td><input type="checkbox" th:placeholder="${userInfo.unlock}"></input></td>
+        <td><input type="checkbox" th:placeholder="${userInfo.enabled}"></input></td>
+        <td><span th:text="${userInfo.userDueDate}"></span></td>
+        <td><span th:text="${userInfo.roleId}"></span></td>
+        </tr>
+       <tr>
+        <td><span th:text="${userInfo.userId}"></span></td>
+        <td><input type="text" th:placeholder="${userInfo.userName}" th:field="*{userName}"></input></td>
+        <td><input type="text" th:placeholder="${userInfo.password}" th:field="*{password}"></input></td>
+        <td><input type="text" th:placeholder="${userInfo.passUpdateDate}" th:field="*{passUpdateDate}"></input></td>
+        <td><input type="text" th:placeholder="${userInfo.loginMissTimes}" th:field="*{loginMissTimes}"></input></td>
+        <td><input type="checkbox" th:placeholder="${userInfo.unlock}" th:checked="*{unlock}"></input></td>
+        <td><input type="checkbox" th:placeholder="${userInfo.enabled}" th:checked="*{enabled}"></input></td>
+        <td><input type="text" th:placeholder="${userInfo.userDueDate}" th:field="*{userDueDate}"></input></td>
+        <td><input type="text" th:placeholder="${userInfo.roleId}" th:field="*{roleId}"></input></td>
         </tr>
     </tbody>
 </table>
-<div th:text="${userInfo.userId}"></div>
+
+<input type="submit" class="btn btn-primary" value="更新">
+</form>
   </body>
    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
 </html>

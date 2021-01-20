@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.basiauth.basiauth.entity.EditUserRequest;
 import com.basiauth.basiauth.entity.LoginUser;
 import com.basiauth.basiauth.entity.PassUpdateRequest;
 import com.basiauth.basiauth.entity.UserRequest;
@@ -60,5 +61,9 @@ import lombok.extern.slf4j.Slf4j;
 
 	public LoginUser getLoginUserByUserId(String userId) {
 		return repositoryImpl.getLoginUserByUserid(userId);
+	}
+
+	public void updateUserInfo(EditUserRequest editUserRequest) throws ParseException {
+		repositoryImpl.updateUserInfo(editUserRequest);
 	}
 }

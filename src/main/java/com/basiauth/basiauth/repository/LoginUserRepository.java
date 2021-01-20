@@ -30,4 +30,27 @@ public interface LoginUserRepository extends CrudRepository<LoginUser,Long> {
 									@Param(value = "loginMissTimes") int loginMissTimes,
 									@Param(value = "unlock") boolean unlock);
 
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE m_user SET"
+				 				+ " user_name = :userName,"
+				 				+ " password = :password,"
+				 				+ " pass_update_date = :passUpdateDate,"
+				 				+ " login_miss_times = :loginMissTimes,"
+				 				+ " unlock = :unlock,"
+				 				+ " enabled = :enabled,"
+				 				+ " user_due_date = :userDueDate,"
+				 				+ " role_id = :roleId"
+				 				+ " WHERE user_id = :userId",nativeQuery=true)
+	public void updateuserInfo(@Param(value = "userId") String userId,
+							   @Param(value = "userName") String userName,
+							   @Param(value = "password") String password,
+							   @Param(value = "passUpdateDate") Date passUpdateDate,
+							   @Param(value = "loginMissTimes") int loginMissTimes,
+							   @Param(value = "unlock") boolean unlock,
+							   @Param(value = "enabled") boolean enabled,
+							   @Param(value = "userDueDate") Date userDueDate,
+							   @Param(value = "roleId") String roleId);
+
+
 }

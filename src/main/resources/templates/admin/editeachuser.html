@@ -41,13 +41,17 @@
         <td><input type="checkbox" th:checked="${userInfo.unlock}" name="unlock"></input></td>
         <td><input type="checkbox" th:checked="${userInfo.enabled}" name="enabled"></input></td>
         <td><input type="text" th:value="${userInfo.userDueDate}" th:name="userDueDate"></input></td>
-        <td><input type="text" th:value="${userInfo.roleId}" th:name="roleId"></input></td>
+        <td>
+        	<select id="roleIds" name="jobIds">
+        		<option th:each="roleId : ${roleIds}" th:value="${roleId}" th:selected="${roleId == userInfo.roleId}">[[${roleId}]]</option>
+        	</select>
+        </td>
         </tr>
     </tbody>
 </table>
-
 <input type="submit" class="btn btn-primary" value="更新">
 </form>
+<a th:href="@{/admin/edituser}">戻る</a>
   </body>
    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
 </html>

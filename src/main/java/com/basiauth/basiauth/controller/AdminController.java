@@ -73,6 +73,10 @@ public class AdminController {
 	@GetMapping("/admin/edituser/{userId}")
 	public String getAllUsers(@PathVariable("userId") String userId, Model model) {
 		model.addAttribute("userInfo", serviceUser.getLoginUserByUserId(userId));
+		List<String> roleIds = new ArrayList<>();
+		roleIds.add("general");
+		roleIds.add("admin");
+		model.addAttribute("roleIds", roleIds);
 		System.out.println(serviceUser.getLoginUserByUserId(userId).getPassword());
 		model.addAttribute("userEditRequest", new LoginUser());
 		return "/admin/editeachuser";
@@ -84,14 +88,14 @@ public class AdminController {
 			List<String> errorList = new ArrayList<>();
 			for(ObjectError error: result.getAllErrors()) {
 				 errorList.add(error.getDefaultMessage());
-				 System.out.println(error.getDefaultMessage());
 			}
 			model.addAttribute("validationError",errorList);
 			return "admin/edituser";
 		}
+
 		model.addAttribute("userEditRequest",userRequest);
 		serviceUser.updateUserInfo(userRequest);
 
-		return "admin/edituser";
+		return "admin/editeuser";
 	}
 }

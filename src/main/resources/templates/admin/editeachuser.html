@@ -28,27 +28,20 @@
     <tr th:if="${validationError}" th:each="error : ${validationError}">
         <td style="color:red;" th:text="${error}"></td>
     </tr>
-        <tr>
+         <tr>
+         <!--参考：https://ti-tomo-knowledge.hatenablog.com/entry/2018/06/14/162616  -->
+         <!--th:valueとth:nameを両方同じinput内に設定しようとするとなぜかvalueの方が空白になってしまうので、name属性はthをつけない。  -->
+         <!--参考：https://b1tblog.com/2019/12/21/spring-boot-2/  -->
+         <!-- input属性にデフォルト設定を設けたいときは、th:checkedにこの設定を保存する。 -->
         <td><span th:text="${userInfo.userId}"></span></td>
-        <td><span th:text="${userInfo.userName}"></span></td>
-        <td><span th:text="${userInfo.password}"></span></td>
-        <td><span th:text="${userInfo.passUpdateDate}"></span></td>
-        <td><span th:text="${userInfo.loginMissTimes}"></span></td>
-         <td><input type="checkbox" th:placeholder="${userInfo.unlock}"></input></td>
-        <td><input type="checkbox" th:placeholder="${userInfo.enabled}"></input></td>
-        <td><span th:text="${userInfo.userDueDate}"></span></td>
-        <td><span th:text="${userInfo.roleId}"></span></td>
-        </tr>
-       <tr>
-        <td><span th:text="${userInfo.userId}"></span></td>
-        <td><input type="text" th:placeholder="${userInfo.userName}" th:field="*{userName}"></input></td>
-        <td><input type="text" th:placeholder="${userInfo.password}" th:field="*{password}"></input></td>
-        <td><input type="text" th:placeholder="${userInfo.passUpdateDate}" th:field="*{passUpdateDate}"></input></td>
-        <td><input type="text" th:placeholder="${userInfo.loginMissTimes}" th:field="*{loginMissTimes}"></input></td>
-        <td><input type="checkbox" th:placeholder="${userInfo.unlock}" th:checked="*{unlock}"></input></td>
-        <td><input type="checkbox" th:placeholder="${userInfo.enabled}" th:checked="*{enabled}"></input></td>
-        <td><input type="text" th:placeholder="${userInfo.userDueDate}" th:field="*{userDueDate}"></input></td>
-        <td><input type="text" th:placeholder="${userInfo.roleId}" th:field="*{roleId}"></input></td>
+        <td><input type="text" th:value="${userInfo.userName}" name="userName"></input></td>
+        <td><input type="text" th:value="${userInfo.password}" name="password"></input></td>
+        <td><input type="text" th:value="${userInfo.passUpdateDate}" name="passUpdateDate"></input></td>
+        <td><input type="text" th:value="${userInfo.loginMissTimes}" name="loginMissTimes"></input></td>
+        <td><input type="checkbox" th:checked="${userInfo.unlock}" name="unlock"></input></td>
+        <td><input type="checkbox" th:checked="${userInfo.enabled}" name="enabled"></input></td>
+        <td><input type="text" th:value="${userInfo.userDueDate}" th:name="userDueDate"></input></td>
+        <td><input type="text" th:value="${userInfo.roleId}" th:name="roleId"></input></td>
         </tr>
     </tbody>
 </table>

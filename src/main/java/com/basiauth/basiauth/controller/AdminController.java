@@ -1,8 +1,12 @@
 package com.basiauth.basiauth.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,25 +80,48 @@ public class AdminController {
 		roleIds.add("general");
 		roleIds.add("admin");
 		model.addAttribute("roleIds", roleIds);
-		System.out.println(serviceUser.getLoginUserByUserId(userId).getPassword());
 		model.addAttribute("userEditRequest", new LoginUser());
 		return "/admin/editeachuser";
 	}
 
 	@PostMapping("/admin/edituser/{userId}")
-	public String updateUser(@Validated @ModelAttribute EditUserRequest userRequest, BindingResult result, Model model) throws ParseException {
+	public String updateUser(@Valid @ModelAttribute("userRequest") EditUserRequest userRequest, BindingResult result, Model model) throws ParseException {
+		model.addAttribute("userEditRequest",userRequest);
+
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+    	Date passUpdateDate = df.parse(userRequest.getPassUpdateDate());
+    	Date userDueDate = df.parse(userRequest.getUserDueDate());
+    	List<String> errorList = new ArrayList<>();
+
 		if(result.hasErrors()) {
-			List<String> errorList = new ArrayList<>();
 			for(ObjectError error: result.getAllErrors()) {
 				 errorList.add(error.getDefaultMessage());
 			}
 			model.addAttribute("validationError",errorList);
-			return "admin/edituser";
+			return "admin/editeachuser";
+
+		} else if(passUpdateDate.before(new Date()) || userDueDate.before(new Date())) {
+			errorList.add("pass_update_date及びuser_due_dateに過去日付は入力できません。");
+			model.addAttribute("userList",serviceUser.getLoginUserByUserId(userRequest.getUserId()));
+			model.addAttribute("userEditRequest",serviceUser.getLoginUserByUserId(userRequest.getUserId()));
+			model.addAttribute("validationError",errorList);
+			model.addAttribute("userInfo", serviceUser.getLoginUserByUserId(userRequest.getUserId()));
+
+			return "/admin/editeachuser";
+
+		} else if(userRequest.getLoginMissTimes() <0) {
+			errorList.add("login_miss_timesには0以上の数字を入力してください。");
+			System.out.println(serviceUser.getLoginUserByUserId(userRequest.getUserId()));
+
+			model.addAttribute("userInfo", serviceUser.getLoginUserByUserId(userRequest.getUserId()));
+
+			model.addAttribute("userList",serviceUser.getLoginUserByUserId(userRequest.getUserId()));
+			model.addAttribute("validationError",errorList);
+			return "/admin/editeachuser";
 		}
 
-		model.addAttribute("userEditRequest",userRequest);
 		serviceUser.updateUserInfo(userRequest);
 
-		return "admin/editeuser";
+		return "admin/editeachuser";
 	}
 }

@@ -10,11 +10,13 @@
   </head>
   <body>
     <h1>Home</h1>
-    
+
     <table class="table">
+    <tr th:each="error : ${validationError}">
+        <td style="color:red;" th:text="${error}"></td>
+    </tr>
     <thead>
         <tr>
-        	<th>編集</th>
             <th scope="col">UserId</th>
             <th scope="col">UserName</th>
             <th scope="col">Password</th>

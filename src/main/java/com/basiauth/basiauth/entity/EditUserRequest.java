@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
@@ -13,8 +14,6 @@ import lombok.Data;
 @Data
 public class EditUserRequest implements Serializable{
 
-	@NotEmpty(message = "ユーザIDを入力してください")
-	@Size(max=255, message="ユーザ名は255字以内で入力してください")
 	private String userId;
 
 	@NotEmpty(message="ユーザ名を入力してください")
@@ -25,21 +24,17 @@ public class EditUserRequest implements Serializable{
 	@Pattern(regexp="^$|^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@\\\\[-`{-~])[!-~]*",message="使用可能な記号は!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~です")
 	private String password;
 
-	@NotEmpty(message="ユーザ名を入力してください")
+	@NotEmpty(message="パスワードアップデート期限を入力してください")
 	private String passUpdateDate;
 
-	@NotEmpty(message="ユーザ名を入力してください")
+	@PositiveOrZero(message="0より大きい数を入力してください")
 	private int LoginMissTimes;
 
-	@NotEmpty(message="ユーザ名を入力してください")
 	private boolean unlock;
 
-	@NotEmpty(message="ユーザ名を入力してください")
 	private boolean enabled;
 
-	@NotEmpty(message="ユーザ名を入力してください")
 	private String userDueDate;
 
-	@NotEmpty(message="ユーザ名を入力してください")
 	private String roleId;
 }

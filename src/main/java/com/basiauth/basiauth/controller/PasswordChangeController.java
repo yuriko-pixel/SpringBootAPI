@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.basiauth.basiauth.entity.PassUpdateRequest;
 import com.basiauth.basiauth.entity.UserDetailsImpl;
 import com.basiauth.basiauth.service.LoginUserDetailsServiceImpl;
-import com.sun.el.parser.ParseException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,13 +34,13 @@ public class PasswordChangeController {
 
     /**
      * パスワード変更.
-     * @throws ParseException
      * @throws java.text.ParseException
+     * @throws Exception
      */
     @PostMapping("/password/change")
     public String postPasswordChange(Model model,
             @ModelAttribute PassUpdateRequest form,
-            @AuthenticationPrincipal UserDetailsImpl user) throws ParseException, java.text.ParseException {
+            @AuthenticationPrincipal UserDetailsImpl user) throws Exception {
     	model.addAttribute("passwordForm",new PassUpdateRequest());
         service.updatePassword(form,user.getUser().getUserId());
 

@@ -9,7 +9,7 @@
     <title>ホーム</title>
   </head>
   <body>
-    <form th:action="@{/admin/edituser/${userInfo.userId}}" th:method="post" th:object="${userEditRequest}" class="container-sm">
+    <form th:action="|/admin/edituser/${userInfo.userId}|" th:method="post" th:object="${userEditRequest}" class="container-sm">
      <div th:each="error : ${validationError}">
         <sapn style="color:red;" th:text="${error}"></span>
     </div>
@@ -28,29 +28,29 @@
         </tr>
     </thead>
     <tbody>
-         <tr>
+      <tr>
          <!--参考：https://ti-tomo-knowledge.hatenablog.com/entry/2018/06/14/162616  -->
          <!--th:valueとth:nameを両方同じinput内に設定しようとするとなぜかvalueの方が空白になってしまうので、name属性はthをつけない。  -->
          <!--参考：https://b1tblog.com/2019/12/21/spring-boot-2/  -->
          <!-- input属性にデフォルト設定を設けたいときは、th:checkedにこの設定を保存する。 -->
-        <td>
-        	<span th:text="${userInfo.userId}"></span>
-        	<input type="hidden" th:value="${userInfo.userId}" name="userId"></input>
-        </td>
-        <td><input type="text" th:value="${userInfo.userName}" name="userName"></input></td>
-        <td><input type="text" th:value="${userInfo.password}" name="password"></input></td>
-        <td><input type="text" th:value="${userInfo.passUpdateDate}" name="passUpdateDate"></input></td>
-        <td><input type="text" th:value="${userInfo.loginMissTimes}" name="loginMissTimes"></input></td>
-        <td><input type="checkbox" th:checked="${userInfo.unlock}" name="unlock"></input></td>
-        <td><input type="checkbox" th:checked="${userInfo.enabled}" name="enabled"></input></td>
-        <td><input type="text" th:value="${userInfo.userDueDate}" th:name="userDueDate"></input></td>
-        <td>
-        	<select id="roleIds" name="jobIds">
-        		<option th:each="roleId : ${roleIds}" th:value="${roleId}" th:selected="${roleId == userInfo.roleId}">[[${roleId}]]</option>
-        	</select>
-        </td>
-        </tr>
-    </tbody>
+      <td>
+      	<span th:text="${userInfo.userId}"></span>
+      	<input type="hidden" th:value="${userInfo.userId}" name="userId"></input>
+      </td>
+      <td><input type="text" th:value="${userInfo.userName}" name="userName"></input></td>
+      <td><input type="text" th:value="${userInfo.password}" name="password"></input></td>
+      <td><input type="text" th:value="${userInfo.passUpdateDate}" name="passUpdateDate"></input></td>
+      <td><input type="text" th:value="${userInfo.loginMissTimes}" name="loginMissTimes"></input></td>
+      <td><input type="checkbox" th:checked="${userInfo.unlock}" name="unlock"></input></td>
+      <td><input type="checkbox" th:checked="${userInfo.enabled}" name="enabled"></input></td>
+      <td><input type="text" th:value="${userInfo.userDueDate}" th:name="userDueDate"></input></td>
+      <td>
+      	<select id="roleIds" name="roleIds">
+      		<option th:each="roleId : ${roleIds}" th:value="${roleId}" th:selected="${roleId == userInfo.roleId}">[[${roleId}]]</option>
+      	</select>
+      </td>
+     </tr>
+   </tbody>
 </table>
 <input type="submit" class="btn btn-primary" value="更新">
 </form>

@@ -9,8 +9,9 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class OriginalPasswordEncrypter {
+public class OriginalPasswordEncrypter implements PasswordEncoder {
 	public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
     private KeySpec ks;
     private SecretKeyFactory skf;
@@ -19,6 +20,30 @@ public class OriginalPasswordEncrypter {
     private String myEncryptionKey;
     private String myEncryptionScheme;
     SecretKey key;
+
+    @Override
+    public boolean upgradeEncoding(String encodedPassword) {
+        return false;
+    }
+
+    @Override
+    public String encode(CharSequence rawPassword) {
+    	String encryptedString = null;
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] plainText = rawPassword.toString().getBytes(StandardCharsets.UTF_8);
+            byte[] encryptedText = cipher.doFinal(plainText);
+            encryptedString = new String(Base64.encodeBase64(encryptedText));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return encryptedString;
+    }
+
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return rawPassword.equals(decrypt(encodedPassword));
+    }
 
     public OriginalPasswordEncrypter() throws Exception {
         myEncryptionKey = "ThisIsSpartaThisIsSparta";
@@ -31,18 +56,18 @@ public class OriginalPasswordEncrypter {
     }
 
 
-    public String encrypt(String unencryptedString) {
-        String encryptedString = null;
-        try {
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] plainText = unencryptedString.getBytes(StandardCharsets.UTF_8);
-            byte[] encryptedText = cipher.doFinal(plainText);
-            encryptedString = new String(Base64.encodeBase64(encryptedText));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return encryptedString;
-    }
+//    public String encrypt(String unencryptedString) {
+//        String encryptedString = null;
+//        try {
+//            cipher.init(Cipher.ENCRYPT_MODE, key);
+//            byte[] plainText = unencryptedString.getBytes(StandardCharsets.UTF_8);
+//            byte[] encryptedText = cipher.doFinal(plainText);
+//            encryptedString = new String(Base64.encodeBase64(encryptedText));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return encryptedString;
+//    }
 
 
     public String decrypt(String encryptedString) {

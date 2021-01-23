@@ -1,6 +1,5 @@
 package com.basiauth.basiauth.controller;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.basiauth.basiauth.config.OriginalPasswordEncrypter;
 import com.basiauth.basiauth.entity.EditUserRequest;
 import com.basiauth.basiauth.entity.Employee;
 import com.basiauth.basiauth.entity.LoginUser;
@@ -69,7 +69,6 @@ public class AdminController {
 	@GetMapping("/admin/edituser")
 	public String getAllUsers(Model model) {
 		model.addAttribute("usersList", serviceUser.getAllUsers());
-//		model.addAttribute("userEditRequest", new LoginUser());
 		return "/admin/edituser";
 	}
 
@@ -85,7 +84,13 @@ public class AdminController {
 	}
 
 	@PostMapping("/admin/edituser/{userId}")
-	public String updateUser(@Valid @ModelAttribute("userRequest") EditUserRequest userRequest, BindingResult result, Model model) throws ParseException {
+	public String updateUser(@Valid @ModelAttribute("userRequest") EditUserRequest userRequest, BindingResult result, Model model) throws Exception {
+		CharSequence c = "password";
+		OriginalPasswordEncrypter encrypter = new OriginalPasswordEncrypter();
+		System.out.println(
+				"password暗号化"+
+				encrypter.encode(c));
+
 		model.addAttribute("userEditRequest",userRequest);
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
@@ -111,7 +116,6 @@ public class AdminController {
 
 		} else if(userRequest.getLoginMissTimes() <0) {
 			errorList.add("login_miss_timesには0以上の数字を入力してください。");
-			System.out.println(serviceUser.getLoginUserByUserId(userRequest.getUserId()));
 
 			model.addAttribute("userInfo", serviceUser.getLoginUserByUserId(userRequest.getUserId()));
 

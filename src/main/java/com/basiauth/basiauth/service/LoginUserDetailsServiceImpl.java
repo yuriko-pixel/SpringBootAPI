@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 
 	}
 
-	public void updatePassword(PassUpdateRequest request, String userId) throws ParseException {
+	public void updatePassword(PassUpdateRequest request, String userId) throws Exception {
 		repositoryImpl.updatePassword(request, userId);
 	}
 
@@ -63,7 +63,7 @@ import lombok.extern.slf4j.Slf4j;
 		return repositoryImpl.getLoginUserByUserid(userId);
 	}
 
-	public void updateUserInfo(EditUserRequest editUserRequest) throws ParseException {
+	public void updateUserInfo(EditUserRequest editUserRequest) throws Exception {
 		repositoryImpl.updateUserInfo(editUserRequest);
 	}
 }

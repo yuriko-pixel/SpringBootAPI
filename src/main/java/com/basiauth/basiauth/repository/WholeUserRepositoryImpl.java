@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.basiauth.basiauth.config.OriginalPasswordEncrypter;
 import com.basiauth.basiauth.entity.EditUserRequest;
 import com.basiauth.basiauth.entity.LoginUser;
 import com.basiauth.basiauth.entity.PassUpdateRequest;
@@ -95,8 +96,11 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     }
 
     //パスワードと、パスワードアップデート日の更新
-    public void updatePassword(PassUpdateRequest passUpdateReqeust,String userId) throws ParseException {
-    	String password = passwordEncoder.encode(passUpdateReqeust.getPassword());
+    public void updatePassword(PassUpdateRequest passUpdateRequest,String userId) throws Exception {
+    	OriginalPasswordEncrypter pass = new OriginalPasswordEncrypter();
+    	CharSequence cs = new StringBuffer(passUpdateRequest.getPassword());
+    	String password = pass.encode(cs);
+
     	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	Date date = new Date();
     	date = df.parse("2099-12-31 23:59:59");
@@ -122,20 +126,16 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     	return user;
     }
 
-    public void updateUserInfo(EditUserRequest editUserRequest) throws ParseException {
-//
-    	String password = passwordEncoder.encode(editUserRequest.getPassword());
+    public void updateUserInfo(EditUserRequest editUserRequest) throws Exception {
+    	OriginalPasswordEncrypter pass = new OriginalPasswordEncrypter();
+    	CharSequence cs = new StringBuffer(editUserRequest.getPassword());
+    	String password = pass.encode(cs);
+//    	String password = passwordEncoder.encode(editUserRequest.getPassword());
     	SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-//
+
     	Date passUpdateDate = df.parse(editUserRequest.getPassUpdateDate());
-//    	int loginMissTimes = Integer.parseInt(loginMissTimes1);
-//
-//    	boolean unlock = Boolean.getBoolean(unlock1);
-//    	boolean enabled = Boolean.getBoolean(enabled1);
     	Date userDueDate = df.parse(editUserRequest.getUserDueDate());
 
-    	System.out.println("passUpdateDate:"+editUserRequest.getUserId());
-    	System.out.println("passUpdateDate:"+editUserRequest.getPassUpdateDate());
 
     	loginUserRepository.updateuserInfo(
     			editUserRequest.getUserId(), editUserRequest.getUserName(), password,

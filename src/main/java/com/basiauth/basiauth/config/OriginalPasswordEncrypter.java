@@ -10,7 +10,9 @@ import javax.crypto.spec.DESedeKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OriginalPasswordEncrypter implements PasswordEncoder {
 	public static final String DESEDE_ENCRYPTION_SCHEME = "DESede";
     private KeySpec ks;

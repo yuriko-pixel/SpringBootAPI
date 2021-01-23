@@ -35,10 +35,11 @@ public class AdminController {
 	@Autowired
 	private EmployeeServiceImpl serviceEmployee;
 
-
-
 	@Autowired
 	private LoginUserDetailsServiceImpl serviceUser;
+
+	@Autowired
+	private OriginalPasswordEncrypter passEncrypter;
 
 	@GetMapping("/admin")
 	public String getAdmin() {
@@ -68,13 +69,25 @@ public class AdminController {
 
 	@GetMapping("/admin/edituser")
 	public String getAllUsers(Model model) {
-		model.addAttribute("usersList", serviceUser.getAllUsers());
+		List<LoginUser> loginUserList = serviceUser.getAllUsers();
+
+		for (int i = 0; i < loginUserList.size(); i++){
+			 LoginUser user = loginUserList.get(i);
+				String encoded = passEncrypter.decrypt(user.getPassword());
+				user.setPassword(encoded);
+		}
+
+		model.addAttribute("usersList", loginUserList);
+
 		return "/admin/edituser";
 	}
 
 	@GetMapping("/admin/edituser/{userId}")
 	public String getAllUsers(@PathVariable("userId") String userId, Model model) {
-		model.addAttribute("userInfo", serviceUser.getLoginUserByUserId(userId));
+		LoginUser user = serviceUser.getLoginUserByUserId(userId);
+		String decrypt = passEncrypter.decrypt(user.getPassword());
+		user.setPassword(decrypt);
+		model.addAttribute("userInfo", user);
 		List<String> roleIds = new ArrayList<>();
 		roleIds.add("general");
 		roleIds.add("admin");
@@ -85,12 +98,6 @@ public class AdminController {
 
 	@PostMapping("/admin/edituser/{userId}")
 	public String updateUser(@Valid @ModelAttribute("userRequest") EditUserRequest userRequest, BindingResult result, Model model) throws Exception {
-		CharSequence c = "password";
-		OriginalPasswordEncrypter encrypter = new OriginalPasswordEncrypter();
-		System.out.println(
-				"password暗号化"+
-				encrypter.encode(c));
-
 		model.addAttribute("userEditRequest",userRequest);
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");

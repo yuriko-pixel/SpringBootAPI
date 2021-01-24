@@ -9,7 +9,7 @@
     <title>ホーム</title>
   </head>
   <body>
-    <form th:action="|/admin/edituser/${userInfo.userId}|" th:method="post" th:object="${userEditRequest}" class="container-sm">
+    <form th:action="|/admin/edituser/${userInfo.userId}|" th:method="put" th:object="${userEditRequest}" class="container-sm">
      <div th:each="error : ${validationError}">
         <sapn style="color:red;" th:text="${error}"></span>
     </div>
@@ -53,6 +53,10 @@
    </tbody>
 </table>
 <input type="submit" class="btn btn-primary" value="更新">
+</form>
+<form th:action="|/admin/edituser/${userInfo.userId}|" th:method="delete">
+<input type="submit" value="削除" class="btn btn-danger">
+<input type="hidden" name="userId" th:value="${userInfo.userId}">
 </form>
 <a th:href="@{/admin/edituser}">戻る</a>
   </body>

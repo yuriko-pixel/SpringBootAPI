@@ -32,6 +32,11 @@ public interface LoginUserRepository extends CrudRepository<LoginUser,Long> {
 
 	@Modifying
 	@Transactional
+	@Query(value = "UPDATE m_user SET deleted_flag = true WHERE user_id = :userId", nativeQuery=true)
+	public void deleteUserByUserId(@Param(value = "userId") String userId);
+
+	@Modifying
+	@Transactional
 	@Query(value = "UPDATE m_user SET"
 				 				+ " user_name = :userName,"
 				 				+ " password = :password,"

@@ -13,10 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.basiauth.basiauth.config.OriginalPasswordEncrypter;
 import com.basiauth.basiauth.entity.EditUserRequest;
@@ -96,7 +97,7 @@ public class AdminController {
 		return "/admin/editeachuser";
 	}
 
-	@PostMapping("/admin/edituser/{userId}")
+	@PutMapping("/admin/edituser/{userId}")
 	public String updateUser(@Valid @ModelAttribute("userRequest") EditUserRequest userRequest, BindingResult result, Model model) throws Exception {
 		model.addAttribute("userEditRequest",userRequest);
 
@@ -134,5 +135,27 @@ public class AdminController {
 		serviceUser.updateUserInfo(userRequest);
 
 		return "admin/editeachuser";
+	}
+
+	@DeleteMapping("/admin/edituser/{userId}")
+	public String deleteUser(@PathVariable("userId") String userId, Model model) {
+		LoginUser user = serviceUser.getLoginUserByUserId(userId);
+		user.setDeleted_flage(true);
+		serviceUser.deleteUserByUserid(userId);
+
+		List<LoginUser> loginUserList = serviceUser.getAllUsers();
+
+		for (int i = 0; i < loginUserList.size(); i++){
+			 LoginUser user2 = loginUserList.get(i);
+				String encoded = passEncrypter.decrypt(user2.getPassword());
+				user2.setPassword(encoded);
+		}
+
+		String deleteMessage = userId + " を削除しました。";
+
+		model.addAttribute("deleteMessage", deleteMessage);
+		model.addAttribute("usersList", loginUserList);
+
+		return "/admin/edituser";
 	}
 }

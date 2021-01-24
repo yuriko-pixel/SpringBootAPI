@@ -66,4 +66,8 @@ import lombok.extern.slf4j.Slf4j;
 	public void updateUserInfo(EditUserRequest editUserRequest) throws Exception {
 		repositoryImpl.updateUserInfo(editUserRequest);
 	}
+
+	public void deleteUserByUserid(String userId) {
+		repositoryImpl.deleteUserByUserid(userId);
+	}
 }

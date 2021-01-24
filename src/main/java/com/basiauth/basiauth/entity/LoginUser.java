@@ -68,4 +68,9 @@ public class LoginUser{
     @Setter
     private String roleId;
 
+    @Column(name = "deleted_flag")
+    @Getter
+    @Setter
+    private boolean deleted_flage;
+
 }

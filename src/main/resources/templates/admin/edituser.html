@@ -10,7 +10,7 @@
   </head>
   <body>
     <h1>Home</h1>
-
+	<span th:text="${deleteMessage}" style="color:red;"></span>
     <table class="table">
     <tr th:each="error : ${validationError}">
         <td style="color:red;" th:text="${error}"></td>
@@ -42,8 +42,8 @@
         </tr>
     </tbody>
 </table>
-
 </form>
+<a th:href="@{/admin/adminhome}">戻る</a>
   </body>
    <script th:src="@{/webjars/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
 </html>

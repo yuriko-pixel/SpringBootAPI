@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,16 +35,17 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     @Override
     public UserDetailsImpl selectOne(String userId) {
        LoginUser user = loginUserRepository.findOneByUserId(userId);
-       System.out.println(user.getUserName());
+       //ユーザーが削除フラグonの場合は削除されたとみなす
+       if(user.isDeleted_flage()) {
+    	   return null;
+       }
        String roleId = user.getRoleId();
-       System.out.println(roleId);
        //userIdからrole_idをゲット
        Role role = loginRoleRepository.findOneByRoleId(roleId);
        String roleName = role.getRoleName();
 
        List<GrantedAuthority> grantedAuthorityList = getRoleList(roleName);
        UserDetailsImpl userDetails = buildUserDetails(user, grantedAuthorityList);
-       System.out.println(userDetails);
 
        return userDetails;
     }
@@ -117,6 +119,12 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     public List<LoginUser> getAllUsers() {
     	List<LoginUser> userList = new ArrayList<>();
     	Iterable<LoginUser> iterable = loginUserRepository.findAll();
+    	for (Iterator<LoginUser> i = iterable.iterator(); i.hasNext();) {
+    		LoginUser s = i.next();
+    		if (s.isDeleted_flage()) {
+    			i.remove();
+    		}
+    	}
     	iterable.forEach(userList::add);
     	return userList;
     }
@@ -141,5 +149,9 @@ public class WholeUserRepositoryImpl implements WholeUserRepository{
     			editUserRequest.getUserId(), editUserRequest.getUserName(), password,
     			passUpdateDate, editUserRequest.getLoginMissTimes(), editUserRequest.isUnlock(),
     			editUserRequest.isEnabled(), userDueDate, editUserRequest.getRoleId());
+    }
+
+    public void deleteUserByUserid(String userId) {
+    	loginUserRepository.deleteUserByUserId(userId);
     }
 }
